@@ -1764,6 +1764,7 @@ function handleMessage(sender_psid, received_message) {
     }
 
  // Sends the response message
+ console.log(String(reg_code[1].reg[1].name));
  callSendAPI(sender_psid, String(reg_code[1].reg[1].name));
 }
 
