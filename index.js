@@ -1705,22 +1705,7 @@ function handleMessage(sender_psid, received_message) {
  // Get the URL of the message attachment
    //let attachment_url = received_message.attachments[0].payload.url;
    response = {
-       "text":"請選擇服務：",
-       "quick_replies":[
-         {
-           "content_type":"text",
-           "title":"搜尋房屋(分區)",
-           "payload":null
-         },{
-           "content_type":"text",
-           "title":"搜尋房屋(縣市)",
-           "payload":null
-         },{
-           "content_type":"text",
-           "title":"搜尋房屋(學校)",
-           "payload":null
-         }
-      ]
+       "text":"請選擇服務："
    }
 
 
