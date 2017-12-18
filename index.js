@@ -92,23 +92,17 @@ function handleMessage(sender_psid, received_message) {
       "attachment": {
         "type": "template",
         "payload": {
-          "template_type": "generic",
+          "template_type": "list",
           "elements": [{
             "title": "Is this the right picture?",
             "subtitle": "Tap a button to answer.",
             "image_url": "https://hp2.591.com.tw/house/active/2017/12/08/151269485544069901_210x158.crop.jpg",
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
-              },
-              {
-                "type": "postback",
-                "title": "No!",
-                "payload": "no",
-              }
-            ],
+            "default_action": {
+              "type": "web_url",
+              "url": "https://rent.591.com.tw/rent-detail-5869982.html",
+              "messenger_extensions": TRUE,
+              "webview_height_ratio": "FULL"
+            },
           }]
         }
       }
