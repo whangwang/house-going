@@ -100,8 +100,8 @@ function handleMessage(sender_psid, received_message) {
             "default_action": {
               "type": "web_url",
               "url": "https://rent.591.com.tw/rent-detail-5869982.html",
-              "messenger_extensions": TRUE,
-              "webview_height_ratio": "FULL"
+              "messenger_extensions": true,
+              "webview_height_ratio": "full"
             },
           }]
         }
