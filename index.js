@@ -93,37 +93,70 @@ function handleMessage(sender_psid, received_message) {
         "type": "template",
         "payload": {
         "template_type": "list",
+        "top_element_style": "compact",
         "elements": [
           {
-            "title": "Classic T-Shirt Collection",
-            "image_url": "https://xvir.github.io/img/apiai.png",
-            "subtitle": "See all our colors",
+            "title": "優質綠建築近捷運水岸公園第一排",
+            "image_url": "https://hp2.591.com.tw/house/active/2017/11/17/151089679252580809_210x158.crop.jpg",
+            "subtitle": "台北租屋,文山租屋,整層住家出租,優質綠建築近捷運水岸公園第一排",
             "default_action": {
               "type": "web_url",
-              "url": "https://xvir.github.io/"
+              "url": "https://rent.591.com.tw/rent-detail-5860317.html"
 
             },
             "buttons": [
               {
-                "title": "View",
+                "title": "更多...",
                 "type": "web_url",
-                "url": "https://xvir.github.io/"
+                "url": "https://rent.591.com.tw/rent-detail-5860317.html"
               }
             ]
           },
           {
-            "title": "Classic T-Shirt Collection",
-            "image_url": "https://xvir.github.io/img/apiai.png",
-            "subtitle": "See all our colors",
+            "title": "萬利街近萬芳捷運7分鍾",
+            "image_url": "https://www.591.com.tw/images/index/house/newVersion/noImgBigNew.png",
+            "subtitle": "台北租屋,文山租屋,整層住家出租,萬利街近萬芳捷運7分鍾",
             "default_action": {
               "type": "web_url",
-              "url": "http://xvir.github.io/"
+              "url": "https://rent.591.com.tw/rent-detail-5899050.html"
             },
             "buttons": [
               {
-                "title": "View",
+                "title": "更多...",
                 "type": "web_url",
-                "url": "https://xvir.github.io/"
+                "url": "https://rent.591.com.tw/rent-detail-5899050.html"
+              }
+            ]
+          },
+          {
+            "title": "温馨時尚大套房",
+            "image_url": "https://hp1.591.com.tw/house/active/2017/12/01/151210066602924201_210x158.crop.jpg",
+            "subtitle": "台北租屋,文山租屋,獨立套房出租,温馨時尚大套房",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://rent.591.com.tw/rent-detail-5847118.html"
+            },
+            "buttons": [
+              {
+                "title": "更多...",
+                "type": "web_url",
+                "url": "https://rent.591.com.tw/rent-detail-5847118.html"
+              }
+            ]
+          },
+          {
+            "title": "温馨時尚大套房",
+            "image_url": "https://hp1.591.com.tw/house/active/2017/12/01/151210066602924201_210x158.crop.jpg",
+            "subtitle": "台北租屋,文山租屋,獨立套房出租,温馨時尚大套房",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://rent.591.com.tw/rent-detail-5847118.html"
+            },
+            "buttons": [
+              {
+                "title": "更多...",
+                "type": "web_url",
+                "url": "https://rent.591.com.tw/rent-detail-5847118.html"
               }
             ]
           }
@@ -159,7 +192,6 @@ function callSendAPI(sender_psid, response) {
   }, (err, res, body) => {
     if (!err) {
       console.log('message sent!');
-      console.log(response);
     } else {
       console.error("Unable to send message:" + err);
     }
