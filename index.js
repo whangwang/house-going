@@ -1673,24 +1673,7 @@ app.get('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-  let request_body = {
-    "recipient": {
-      "id": sender_psid
-    },
-    "sender_action":"typing_on"
-  }
-  request({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": PAGE_ACCESS_TOKEN },
-    "method": "POST",
-    "json": request_body
-  }, (err, res, body) => {
-    if (!err) {
-      console.log('typing on!');
-    } else {
-      console.error("Unable to send message:" + err);
-    }
-  });
+  whileWait(sender_psid);
   let response;
 
  // Check if the message contains text
@@ -1704,24 +1687,33 @@ function handleMessage(sender_psid, received_message) {
 
  // Get the URL of the message attachment
    //let attachment_url = received_message.attachments[0].payload.url;
-   response = {
-       "text":"請選擇服務：",
-       "quick_replies":[
-         {
-           "content_type":"text",
-           "title":"搜尋房屋(分區)",
-           "payload":"REG"
-         },{
-           "content_type":"text",
-           "title":"搜尋房屋(縣市)",
-           "payload":"CITY"
-         },{
-           "content_type":"text",
-           "title":"搜尋房屋(學校)",
-           "payload":"SCHOOL"
-         },
-      ]
+   if(received_messag=="搜尋房屋(分區)"){
+     response = { "text": "REG!" }
+   }else if(received_messag=="搜尋房屋(縣市)"){
+     response = { "text": "CITY!" }
+   }else if(received_messag=="搜尋房屋(學校)"){
+     response = { "text": "SCHOOL!" }
+   }else{
+     response = {
+         "text":"請選擇服務：",
+         "quick_replies":[
+           {
+             "content_type":"text",
+             "title":"搜尋房屋(分區)",
+             "payload":"REG"
+           },{
+             "content_type":"text",
+             "title":"搜尋房屋(縣市)",
+             "payload":"CITY"
+           },{
+             "content_type":"text",
+             "title":"搜尋房屋(學校)",
+             "payload":"SCHOOL"
+           },
+        ]
+     }
    }
+
 
 
 /*   response = {
@@ -1823,6 +1815,27 @@ function handlePostback(sender_psid, received_postback) {
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
+}
+
+function whileWait(sender_psid){
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action":"typing_on"
+  }
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('typing on!');
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  });
 }
 
 // Sends response messages via the Send API
