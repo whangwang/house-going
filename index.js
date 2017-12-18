@@ -6,6 +6,7 @@ const
   express = require('express'),
   bodyParser = require('body-parser'),
   request = require('request'),
+  reg_code = JSON.parse(require('./region.json')),
   app = express().use(bodyParser.json()); // creates express http server
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -93,7 +94,7 @@ function handleMessage(sender_psid, received_message) {
         "type": "template",
         "payload": {
         "template_type": "list",
-        "top_element_style": "compact",
+        "top_element_style": "large",
         "elements": [
           {
             "title": "優質綠建築近捷運水岸公園第一排",
@@ -166,7 +167,7 @@ function handleMessage(sender_psid, received_message) {
     }
 
  // Sends the response message
- callSendAPI(sender_psid, response);
+ callSendAPI(sender_psid, String(reg_code[1].reg[1].name));
 }
 
 // Handles messaging_postbacks events
