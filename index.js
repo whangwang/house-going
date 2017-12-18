@@ -1,9 +1,11 @@
 'use strict';
 
+
 // Imports dependencies and set up http server
 const
   express = require('express'),
   bodyParser = require('body-parser'),
+  request = require('request'),
   app = express().use(bodyParser.json()); // creates express http server
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -114,5 +116,5 @@ function callSendAPI(sender_psid, response) {
     } else {
       console.error("Unable to send message:" + err);
     }
-  }); 
+  });
 }
