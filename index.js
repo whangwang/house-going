@@ -93,62 +93,39 @@ function handleMessage(sender_psid, received_message) {
         "type": "template",
         "payload": {
         "template_type": "list",
-        "top_element_style": "compact",
         "elements": [
           {
             "title": "Classic T-Shirt Collection",
+            "image_url": "https://xvir.github.io/img/apiai.png",
             "subtitle": "See all our colors",
-            "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://xvir.github.io/"
+
+            },
             "buttons": [
               {
                 "title": "View",
                 "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/collection",
-                "messenger_extensions": true,
-                "webview_height_ratio": "tall",
-                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                "url": "https://xvir.github.io/"
               }
             ]
           },
           {
-            "title": "Classic White T-Shirt",
+            "title": "Classic T-Shirt Collection",
+            "image_url": "https://xvir.github.io/img/apiai.png",
             "subtitle": "See all our colors",
             "default_action": {
               "type": "web_url",
-              "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
-              "messenger_extensions": true,
-              "webview_height_ratio": "tall",
-              "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-            }
-          },
-          {
-            "title": "Classic Blue T-Shirt",
-            "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
-            "subtitle": "100% Cotton, 200% Comfortable",
-            "default_action": {
-              "type": "web_url",
-              "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
-              "messenger_extensions": true,
-              "webview_height_ratio": "tall",
-              "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+              "url": "http://xvir.github.io/"
             },
             "buttons": [
               {
-                "title": "Shop Now",
+                "title": "View",
                 "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
-                "messenger_extensions": true,
-                "webview_height_ratio": "tall",
-                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                "url": "https://xvir.github.io/"
               }
             ]
-          }
-        ],
-         "buttons": [
-          {
-            "title": "View More",
-            "type": "postback",
-            "payload": "payload"
           }
         ]
       }
