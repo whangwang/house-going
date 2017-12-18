@@ -78,13 +78,78 @@ function handleMessage(sender_psid, received_message) {
   let response;
 
  // Check if the message contains text
- if (received_message.text) {
+/* if (received_message.text) {
 
    // Create the payload for a basic text message
    response = {
      "text": `You sent the message: "${received_message.text}". Now send me an image!`
    }
- }
+ } */
+
+ // Get the URL of the message attachment
+   let attachment_url = received_message.attachments[0].payload.url;
+   response = {
+     "attachment": {
+       "type": "template",
+       "payload": {
+         "template_type": "list",
+         "top_element_style": "compact",
+         "elements": [
+           {
+             "title": "優質綠建築近捷運水岸公園第一排",
+             "subtitle": "台北租屋,文山租屋,整層住家出租,優質綠建築近捷運水岸公園第一排",
+             "image_url": "https://hp2.591.com.tw/house/active/2017/11/17/151089679252580809_210x158.crop.jpg",
+             "default_action": {
+               "type": "web_url",
+               "url": "https://rent.591.com.tw/rent-detail-5860317.html",
+               "messenger_extensions": true,
+               "webview_height_ratio": "full"
+             }
+           },
+           {
+             "title": "萬隆捷運站旁,全新裝璜像住飯店一樣舒適!",
+             "subtitle": "台北租屋,文山租屋,分租套房出租,萬隆捷運站旁,全新裝璜像住飯店一樣舒適!",
+             "image_url": "https://hp2.591.com.tw/house/active/2012/08/20/134545684110537402_210x158.crop.jpg",
+             "default_action": {
+               "type": "web_url",
+               "url": "https://rent.591.com.tw/rent-detail-5880068.html",
+               "messenger_extensions": true,
+               "webview_height_ratio": "full"
+             }
+           },
+           {
+             "title": "萬利街近萬芳捷運7分鍾",
+             "subtitle": "台北租屋,文山租屋,整層住家出租,萬利街近萬芳捷運7分鍾",
+             "image_url": "https://www.591.com.tw/images/index/house/newVersion/noImgBigNew.png",
+             "default_action": {
+               "type": "web_url",
+               "url": "https://rent.591.com.tw/rent-detail-5899050.html",
+               "messenger_extensions": true,
+               "webview_height_ratio": "full"
+             }
+           },
+           {
+             "title": "萬芳社區捷運站悠遊市",
+             "subtitle": "台北租屋,文山租屋,整層住家出租,萬芳社區捷運站悠遊市",
+             "image_url": "https://hp2.591.com.tw/house/active/2017/12/08/151269485544069901_210x158.crop.jpg",
+             "default_action": {
+               "type": "web_url",
+               "url": "https://rent.591.com.tw/rent-detail-5869982.html",
+               "messenger_extensions": true,
+               "webview_height_ratio": "full"
+             }
+           }
+         ],
+         "buttons": [
+          {
+            "title": "View More",
+            "type": "postback",
+            "payload": "payload"
+          }
+         ]  
+       }
+     }
+   }
 
  // Sends the response message
  callSendAPI(sender_psid, response);
