@@ -1808,7 +1808,21 @@ function handleMessage(sender_psid, received_message) {
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
+  let response;
 
+  // Get the payload for the postback
+  let payload = received_postback.payload;
+
+  // Set the response based on the postback payload
+  if (payload === 'REG') {
+    response = { "text": "REG!" }
+  } else if (payload === 'CITY') {
+    response = { "text": "CITY!" }
+  } else if (payload === 'SCHOOL') {
+    response = { "text": "SCHOOL!" }
+  }
+  // Send the message to acknowledge the postback
+  callSendAPI(sender_psid, response);
 }
 
 // Sends response messages via the Send API
