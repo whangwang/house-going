@@ -1709,13 +1709,16 @@ function handleMessage(sender_psid, received_message) {
        "quick_replies":[
          {
            "content_type":"text",
-           "title":"搜尋房屋(分區)"
+           "title":"搜尋房屋(分區)",
+           "payload":"REG"
          },{
            "content_type":"text",
-           "title":"搜尋房屋(縣市)"
+           "title":"搜尋房屋(縣市)",
+           "payload":"CITY"
          },{
            "content_type":"text",
-           "title":"搜尋房屋(學校)"
+           "title":"搜尋房屋(學校)",
+           "payload":"SCHOOL"
          },
       ]
    }
