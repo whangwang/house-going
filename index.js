@@ -1673,6 +1673,24 @@ app.get('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action":"typing_on"
+  }
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('typing on!');
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  });
   let response;
 
  // Check if the message contains text
@@ -1687,6 +1705,26 @@ function handleMessage(sender_psid, received_message) {
  // Get the URL of the message attachment
    //let attachment_url = received_message.attachments[0].payload.url;
    response = {
+       "text":"請選擇服務：",
+       "quick_replies":[
+         {
+           "content_type":"text",
+           "title":"搜尋房屋(分區)",
+           "payload":null
+         },{
+           "content_type":"text",
+           "title":"搜尋房屋(縣市)",
+           "payload":null
+         },{
+           "content_type":"text",
+           "title":"搜尋房屋(學校)",
+           "payload":null
+         }
+      ]
+   }
+
+
+/*   response = {
       "attachment": {
         "type": "template",
         "payload": {
@@ -1761,11 +1799,11 @@ function handleMessage(sender_psid, received_message) {
         ]
       }
       }
-    }
+    }  */
 
  // Sends the response message
- console.log(String(reg_code[1].reg[1].name));
- callSendAPI(sender_psid, String(reg_code[1].reg[1].name));
+
+ callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
