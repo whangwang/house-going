@@ -1882,13 +1882,24 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === 'REG') {
-    response = { "text": "REG!" }
+  console.log(payload);
+  if (payload === 'CITY_SEARCH_PAYLOAD') {
+    response = {
+        "text":"請選擇位置：",
+        "quick_replies":[
+          {
+            "content_type":"location"
+          }
+       ]
+    }
   } else if (payload === 'CITY') {
     response = { "text": "CITY!" }
   } else if (payload === 'SCHOOL') {
     response = { "text": "SCHOOL!" }
   }
+
+  console.log(payload);
+
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 }
