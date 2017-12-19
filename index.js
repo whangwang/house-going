@@ -1762,11 +1762,14 @@ function handleMessage(sender_psid, received_message) {
 
  // Get the URL of the message attachment
    //let attachment_url = received_message.attachments[0].payload.url;
+   console.log(received_message);
    if(received_message.text=="搜尋房屋(分區)"){
 
      response = { "text": "REG!" }
    }else if(received_message.text=="搜尋房屋(縣市)"){
      response = { "text": "CITY!" }
+   }else if(received_message.text=="搜尋房屋(學校)"){
+     response = { "text": "SCHOOL!" }
    }else if(received_message.text=="搜尋房屋(學校)"){
      response = { "text": "SCHOOL!" }
    }else{
