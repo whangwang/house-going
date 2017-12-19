@@ -1769,28 +1769,7 @@ function handleMessage(sender_psid, received_message) {
    }else if(received_message.text=="搜尋房屋(縣市)"){
      response = { "text": "CITY!" }
    }else if(received_message.text=="搜尋房屋(學校)"){
-     response = {
-           "attachment": {
-           "type": "template",
-           "payload": {
-              "template_type":"generic",
-              "elements":[
-                {
-                  "title":"<TITLE_TEXT>",
-                  "image_url":"<IMAGE_URL_TO_DISPLAY>",
-                  "subtitle":"<SUBTITLE_TEXT>",
-                  "default_action": {
-                    "type": "web_url",
-                    "url": "<DEFAULT_URL_TO_OPEN>",
-                    "messenger_extensions": <TRUE | FALSE>,
-                    "webview_height_ratio": "<COMPACT | TALL | FULL>"
-                  },
-                  "buttons":[<BUTTON_OBJECT>, ...]
-                },
-              ]
-            }
-          }
-      }
+     response = { "text": "CITY!" }
    }else if(received_message.attachments!=null){
      response = {
            "attachment": {
