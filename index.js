@@ -1769,9 +1769,78 @@ function handleMessage(sender_psid, received_message) {
    }else if(received_message.text=="搜尋房屋(縣市)"){
      response = { "text": "CITY!" }
    }else if(received_message.text=="搜尋房屋(學校)"){
-     response = { "text": "SCHOOL!" }
+     response = {
+           "attachment": {
+           "type": "template",
+           "payload": {
+              "template_type":"generic",
+              "elements":[
+                {
+                  "title":"<TITLE_TEXT>",
+                  "image_url":"<IMAGE_URL_TO_DISPLAY>",
+                  "subtitle":"<SUBTITLE_TEXT>",
+                  "default_action": {
+                    "type": "web_url",
+                    "url": "<DEFAULT_URL_TO_OPEN>",
+                    "messenger_extensions": <TRUE | FALSE>,
+                    "webview_height_ratio": "<COMPACT | TALL | FULL>"
+                  },
+                  "buttons":[<BUTTON_OBJECT>, ...]
+                },
+              ]
+            }
+          }
+      }
    }else if(received_message.attachments!=null){
-     response = { "text": "SCHOOL!" }
+     response = {
+           "attachment": {
+           "type": "template",
+           "payload": {
+              "template_type":"generic",
+              "elements":[
+                {
+                  "title":"優質綠建築近捷運水岸公園第一排",
+                  "image_url":"https://hp2.591.com.tw/house/active/2017/11/17/151089679252580809_210x158.crop.jpg",
+                  "subtitle":"台北租屋,文山租屋,整層住家出租,優質綠建築近捷運水岸公園第一排",
+                  "default_action": {
+                    "type": "web_url",
+                    "url": "https://rent.591.com.tw/rent-detail-5860317.html"
+                  },
+                  "buttons":[
+                    {
+                      "type":"postback",
+                      "title":"Quick Look",
+                      "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                    },{
+                      "type":"web_url",
+                      "url":"https://rent.591.com.tw/rent-detail-5860317.html",
+                      "title":"View Detail"
+                    }
+                  ]
+                },{
+                  "title":"優質綠建築近捷運水岸公園第一排",
+                  "image_url":"https://hp2.591.com.tw/house/active/2017/11/17/151089679252580809_210x158.crop.jpg",
+                  "subtitle":"台北租屋,文山租屋,整層住家出租,優質綠建築近捷運水岸公園第一排",
+                  "default_action": {
+                    "type": "web_url",
+                    "url": "https://rent.591.com.tw/rent-detail-5860317.html"
+                  },
+                  "buttons":[
+                    {
+                      "type":"postback",
+                      "title":"Quick Look",
+                      "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                    },{
+                      "type":"web_url",
+                      "url":"https://rent.591.com.tw/rent-detail-5860317.html",
+                      "title":"View Detail"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+      }
    }else{
      response = {
          "text":"請選擇服務：",
