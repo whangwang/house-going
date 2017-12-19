@@ -1771,8 +1771,9 @@ function handleMessage(sender_psid, received_message) {
    }else if(received_message.text=="搜尋房屋(學校)"){
      response = { "text": "CITY!" }
    }else if(received_message.attachments!=null){
+     response = { "text": "以下是我們替你找出位在台北市文山區的租屋!" }
+     callSendAPI(sender_psid, response);
      response = {
-           "text":"hello, world!",
            "attachment": {
            "type": "template",
            "payload": {
