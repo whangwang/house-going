@@ -1772,6 +1772,7 @@ function handleMessage(sender_psid, received_message) {
      response = { "text": "CITY!" }
    }else if(received_message.attachments!=null){
      response = {
+           "text":"hello, world!",
            "attachment": {
            "type": "template",
            "payload": {
