@@ -1644,6 +1644,10 @@ app.post('/webhook', (req, res) => {
 
 });
 
+app.get('/setup',function(req,res){
+    setupGetStartedButton(res);
+});
+
 app.get('/webhook', (req, res) => {
 
   // Your verify token. Should be a random string.
@@ -1671,6 +1675,34 @@ app.get('/webhook', (req, res) => {
   }
 });
 
+function setupGetStartedButton(res){
+        var messageData = {
+                "get_started":[
+                {
+                    "payload":"STARTED"
+                    }
+                ]
+        };
+
+        // Start the request
+        request({
+            url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            form: messageData
+        },
+        function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                // Print out the response body
+                res.send(body);
+
+            } else {
+                // TODO: Handle errors
+                res.send(body);
+            }
+        });
+}
+
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   whileWait(sender_psid);
@@ -1687,11 +1719,12 @@ function handleMessage(sender_psid, received_message) {
 
  // Get the URL of the message attachment
    //let attachment_url = received_message.attachments[0].payload.url;
-   if(received_message=="搜尋房屋(分區)"){
+   if(received_message.text=="搜尋房屋(分區)"){
+
      response = { "text": "REG!" }
-   }else if(received_message=="搜尋房屋(縣市)"){
+   }else if(received_message.text=="搜尋房屋(縣市)"){
      response = { "text": "CITY!" }
-   }else if(received_message=="搜尋房屋(學校)"){
+   }else if(received_message.text=="搜尋房屋(學校)"){
      response = { "text": "SCHOOL!" }
    }else{
      response = {
