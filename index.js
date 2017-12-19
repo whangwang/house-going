@@ -1683,7 +1683,7 @@ function setupGetStartedButton(res){
                 },
                 "greeting":[{
                     "locale":"default",
-                    "text":"嗨 {{user_full_name}}!"
+                    "text":"哈囉 {{user_full_name}}!"
                   }, {
                     "locale":"en_US",
                     "text":"Timeless apparel for the masses."
