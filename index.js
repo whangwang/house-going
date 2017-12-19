@@ -1692,45 +1692,34 @@ function setupGetStartedButton(res){
                 "persistent_menu":[
                   {
                     "locale":"default",
-                    "composer_input_disabled": true,
+                    "composer_input_disabled": false,
                     "call_to_actions":[
                       {
-                        "title":"My Account",
+                        "title":"租屋查詢",
                         "type":"nested",
                         "call_to_actions":[
                           {
-                            "title":"Pay Bill",
+                            "title":"使用城市搜尋",
                             "type":"postback",
-                            "payload":"PAYBILL_PAYLOAD"
+                            "payload":"CITY_SEARCH_PAYLOAD"
                           },
                           {
-                            "title":"History",
+                            "title":"使用鄉鎮市區搜尋",
                             "type":"postback",
-                            "payload":"HISTORY_PAYLOAD"
+                            "payload":"REGION_SEARCH_PAYLOAD"
                           },
                           {
-                            "title":"Contact Info",
+                            "title":"使用學區搜尋",
                             "type":"postback",
-                            "payload":"CONTACT_INFO_PAYLOAD"
+                            "payload":"SCHOOL_SEARCH_PAYLOAD"
                           }
                         ]
                       },
                       {
                         "type":"web_url",
-                        "title":"Latest News",
+                        "title":"關於",
                         "url":"http://petershats.parseapp.com/hat-news",
                         "webview_height_ratio":"full"
-                      }
-                    ]
-                  },
-                  {
-                    "locale":"zh_CN",
-                    "composer_input_disabled":false,
-                    "call_to_actions":[
-                      {
-                        "title":"Pay Bill",
-                        "type":"postback",
-                        "payload":"PAYBILL_PAYLOAD"
                       }
                     ]
                   }
