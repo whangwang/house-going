@@ -1770,7 +1770,7 @@ function handleMessage(sender_psid, received_message) {
      response = { "text": "CITY!" }
    }else if(received_message.text=="搜尋房屋(學校)"){
      response = { "text": "SCHOOL!" }
-   }else if(received_message.text=="搜尋房屋(學校)"){
+   }else if(received_message.attachments!=null){
      response = { "text": "SCHOOL!" }
    }else{
      response = {
