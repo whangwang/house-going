@@ -1678,11 +1678,10 @@ app.get('/webhook', (req, res) => {
 function setupGetStartedButton(res){
         console.log('setup');
         var messageData = {
-                "get_started":[
-                {
+                "get_started":{
                     "payload":"STARTED"
-                    }
-                ]
+                }
+
         };
 
         // Start the request
