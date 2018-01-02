@@ -1896,7 +1896,7 @@ function handleMessage(sender_psid, received_message) {
                var result = JSON.parse(unescape(String(body).replace(/\\u/g, '%u')));
                var output ="精選推薦<br>";
                var element_arr = [];
-               for(var i = 0; i < result.data.topData.length; i++){
+               for(var i = 0; i < Math.min(5,result.data.topData.length); i++){
       /*           output += "title: "+result.data.topData[i].address+'<br>';
                  output += "keyword: "+result.data.topData[i].alt+'<br>';
                  output += "area: "+result.data.topData[i].area+'<br>';
@@ -1927,6 +1927,7 @@ function handleMessage(sender_psid, received_message) {
                    ]
                  });
                }
+               console.log(element_arr);
                response = {
                      "attachment": {
                      "type": "template",
