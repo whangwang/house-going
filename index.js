@@ -1694,7 +1694,7 @@ function setupGetStartedButton(res){
                     "locale":"default",
                     "composer_input_disabled": false,
                     "call_to_actions":[
-                      {
+                      /*{
                         "title":"租屋查詢",
                         "type":"nested",
                         "call_to_actions":[
@@ -1714,6 +1714,11 @@ function setupGetStartedButton(res){
                             "payload":"SCHOOL_SEARCH_PAYLOAD"
                           }
                         ]
+                      }*/
+                      {
+                        "type":"postback",
+                        "title":"查詢",
+                        "payload":"SEARCH_PAYLOAD"
                       },
                       {
                         "type":"web_url",
@@ -1772,7 +1777,20 @@ function handleMessage(sender_psid, received_message) {
      response = { "text": "CITY!" }
    }else if(received_message.attachments!=null){
      console.log(received_message.attachments[0]);
-     response = { "text": "以下是我們替你找出位在台北市文山區的租屋!" }
+     var lat = received_message.attachments[0].payload.coordinates.lat;
+     var long = received_message.attachments[0].payload.coordinates.long;
+     request({
+       url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+long+"&key=AIzaSyBnkKED6f110BCYfHraX7-kPkPawFMR8es",
+       method: "GET"
+       }, function(error, response, body) {
+         if (error || !body) {
+             return;
+         }else{
+             var result = JSON.parse(unescape(String(body).replace(/\\u/g, '%u')));
+             console.log(result);
+         }
+       });
+  /*   response = { "text": "以下是我們替你找出位在台北市文山區的租屋!" }
      callSendAPI(sender_psid, response);
      response = {
            "attachment": {
@@ -1822,7 +1840,7 @@ function handleMessage(sender_psid, received_message) {
               ]
             }
           }
-      }
+      }*/
    }else{
      response = {
          "text":"請選擇服務：",
@@ -1952,6 +1970,17 @@ function handlePostback(sender_psid, received_postback) {
     response = { "text": "CITY!" }
   } else if (payload === 'SCHOOL') {
     response = { "text": "SCHOOL!" }
+  } else if (payload === 'SEARCH_PAYLOAD') {
+    response = {
+        "text":"請選擇位置：",
+        "quick_replies":[
+          {
+            "content_type":"location",
+            "title":"CITY_location",
+            "payload":"CITY_location"
+          }
+       ]
+    }
   }
 
   console.log(payload);
