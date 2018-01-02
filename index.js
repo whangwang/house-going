@@ -1802,9 +1802,9 @@ function handleMessage(sender_psid, received_message) {
                      "payload":"REG-"+section
                    },{
                      "content_type":"text",
-                     "title":"利用縣市搜尋("+city")",
+                     "title":"利用縣市搜尋("+city+")",
                      "payload":"CITY-"+city
-                   },
+                   }
                 ]
              }
              callSendAPI(sender_psid, response);
