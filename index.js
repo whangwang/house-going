@@ -2034,7 +2034,7 @@ function handleMessage(sender_psid, received_message) {
          }
          var find = 0;
          for(var i = 0; i < user_data.length; i++){
-           if(String(user_data[i].id)=String(sender_psid)){
+           if(String(user_data[i].id)==String(sender_psid)){
              user_data[i].notify.push({
                type: 'city',
                cid: n_city
@@ -2051,6 +2051,8 @@ function handleMessage(sender_psid, received_message) {
              }]
            });
          }
+         response = { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
+         callSendAPI(sender_psid, response);
        }else{
          whileWait(sender_psid);
          var n_city ;
@@ -2070,7 +2072,7 @@ function handleMessage(sender_psid, received_message) {
          }
          var find = 0;
          for(var i = 0; i < user_data.length; i++){
-           if(String(user_data[i].id)=String(sender_psid)){
+           if(String(user_data[i].id)==String(sender_psid)){
              user_data[i].notify.push({
                type: 'reg',
                cid: n_city,
@@ -2089,6 +2091,8 @@ function handleMessage(sender_psid, received_message) {
              }]
            });
          }
+         response = { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[3]+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
+         callSendAPI(sender_psid, response);
        }
      }
    }else{
