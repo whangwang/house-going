@@ -1870,7 +1870,7 @@ function handleMessage(sender_psid, received_message) {
        callSendAPI(sender_psid, response);
        var n_city;
        var n_section;
-       for(var i = 0; i < reg_code.length; i++){
+       for(var i = 1; i < reg_code.length; i++){
          if((typeof reg_code[i] != "undefined")){
            if(reg_code[i].name==String(received_message.quick_reply.payload).split('-')[2]){
              n_city=i;
