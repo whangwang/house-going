@@ -1628,8 +1628,10 @@ app.post('/webhook', (req, res) => {
       let sender_psid = webhookEvent.sender.id;
       console.log('Sender PSID: ' + sender_psid);
       var startTime=new Date();
+      var response = { "text": "HEY,NOW TIME:"+String(startTime)+"!" }
+      callSendAPI(sender_psid, response);
       var func = function(){
-        response = { "text": "HEY,NOW TIME:"+String(startTime)+"!" }
+        var response = { "text": "HEY,NOW TIME:"+String(startTime)+"!" }
         callSendAPI(sender_psid, response);
       };
       setInterval(func,60000);
