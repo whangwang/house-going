@@ -1871,7 +1871,7 @@ function handleMessage(sender_psid, received_message) {
        var n_city;
        var n_section;
        for(var i = 0; i < reg_code.length; i++){
-         if(reg_code[i]!="null"&&reg_code[i].name==String(received_message.quick_reply.payload).split('-')[2]){
+         if((typeof reg_code[i] != "undefined")&&reg_code[i].name==String(received_message.quick_reply.payload).split('-')[2]){
            n_city=i;
            for(var j = 0; j < reg_code[i].reg.length; j++){
              if(reg_code[i].reg[j].name==String(received_message.quick_reply.payload).split('-')[1]){
