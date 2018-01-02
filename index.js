@@ -1941,7 +1941,8 @@ function handlePostback(sender_psid, received_postback) {
         "text":"請選擇位置：",
         "quick_replies":[
           {
-            "content_type":"location"
+            "content_type":"location",
+            "payload":"CITY_location"
           }
        ]
     }
