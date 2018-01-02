@@ -1861,6 +1861,9 @@ function handleMessage(sender_psid, received_message) {
             }
           }
       }*/
+   }else if(typeof received_message.quick_reply == "undefined"){
+     console.log(String(received_message.quick_reply.payload).split('-')[0]);
+     console.log(String(received_message.quick_reply.payload).split('-')[1]);
    }else{
      response = {
          "text":"請選擇服務：",
