@@ -1771,7 +1771,7 @@ function handleMessage(sender_psid, received_message) {
    }else if(received_message.text=="搜尋房屋(學校)"){
      response = { "text": "CITY!" }
    }else if(received_message.attachments!=null){
-     console.log(received_message.attachments);
+     console.log(received_message.attachments[0]);
      response = { "text": "以下是我們替你找出位在台北市文山區的租屋!" }
      callSendAPI(sender_psid, response);
      response = {
@@ -1943,6 +1943,7 @@ function handlePostback(sender_psid, received_postback) {
         "quick_replies":[
           {
             "content_type":"location",
+            "title":"CITY_location",
             "payload":"CITY_location"
           }
        ]
