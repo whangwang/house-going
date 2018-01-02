@@ -1872,6 +1872,7 @@ function handleMessage(sender_psid, received_message) {
        var n_section = 12;
        for(var i = 1; i < reg_code.length; i++){
          if((typeof reg_code[i] != "undefined")){
+           console.log(i);
       /*     if(reg_code[i].name==String(received_message.quick_reply.payload).split('-')[2]){
              n_city=i;
              for(var j = 0; j < reg_code[i].reg.length; j++){
