@@ -9,7 +9,7 @@ const
   app = express().use(bodyParser.json()); // creates express http server
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-
+var user_data= [];
 var reg_code = [
    null,
    {
@@ -1648,6 +1648,10 @@ app.get('/setup',function(req,res){
     setupGetStartedButton(res);
 });
 
+app.get('/look_data',function(req,res){
+    res.send(user_data);
+});
+
 app.get('/webhook', (req, res) => {
 
   // Your verify token. Should be a random string.
@@ -1717,7 +1721,7 @@ function setupGetStartedButton(res){
                       }*/
                       {
                         "type":"postback",
-                        "title":"查詢",
+                        "title":"查詢or訂閱",
                         "payload":"SEARCH_PAYLOAD"
                       },
                       {
@@ -1804,6 +1808,14 @@ function handleMessage(sender_psid, received_message) {
                      "content_type":"text",
                      "title":"利用縣市搜尋("+city+")",
                      "payload":"CITY-"+city
+                   },{
+                     "content_type":"text",
+                     "title":"利用分區訂閱("+city+section+")",
+                     "payload":"SUBSCRIBE-REG-"+section+"-"+city
+                   },{
+                     "content_type":"text",
+                     "title":"利用縣市訂閱("+city+")",
+                     "payload":"SUBSCRIBE-CITY-"+city
                    }
                 ]
              }
@@ -2008,6 +2020,76 @@ function handleMessage(sender_psid, received_message) {
                 callSendAPI(sender_psid, response);
            }
          });
+     }else if( String(received_message.quick_reply.payload).split('-')[0]=="SUBSCRIBE" ){
+       if(String(received_message.quick_reply.payload).split('-')[1]=="CITY"){
+         whileWait(sender_psid);
+         var n_city ;
+         for(var i = 1; i < reg_code.length; i++){
+           if(( reg_code[i] != null )){
+             console.log(i);
+             if(reg_code[i].name==String(received_message.quick_reply.payload).split('-')[2]){
+               n_city=i;
+             }
+           }
+         }
+         var find = 0;
+         for(var i = 0; i < user_data.length; i++){
+           if(String(user_data[i].id)=String(sender_psid)){
+             user_data[i].notify.push({
+               type: 'city',
+               cid: n_city
+             });
+             find++;
+           }
+         }
+         if(find==0){
+           user_data.push({
+             id: String(sender_psid),
+             notify: [{
+               type: 'city',
+               cid: n_city
+             }]
+           });
+         }
+       }else{
+         whileWait(sender_psid);
+         var n_city ;
+         var n_section ;
+         for(var i = 1; i < reg_code.length; i++){
+           if(( reg_code[i] != null )){
+             console.log(i);
+             if(reg_code[i].name==String(received_message.quick_reply.payload).split('-')[3]){
+               n_city=i;
+               for(var j = 0; j < reg_code[i].reg.length; j++){
+                 if(reg_code[i].reg[j].name==String(received_message.quick_reply.payload).split('-')[2]){
+                   n_section=reg_code[i].reg[j].id;
+                 }
+               }
+             }
+           }
+         }
+         var find = 0;
+         for(var i = 0; i < user_data.length; i++){
+           if(String(user_data[i].id)=String(sender_psid)){
+             user_data[i].notify.push({
+               type: 'reg',
+               cid: n_city,
+               sid: n_section
+             });
+             find++;
+           }
+         }
+         if(find==0){
+           user_data.push({
+             id: String(sender_psid),
+             notify: [{
+               type: 'reg',
+               cid: n_city,
+               sid: n_section
+             }]
+           });
+         }
+       }
      }
    }else{
      response = {
