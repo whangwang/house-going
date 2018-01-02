@@ -1793,8 +1793,21 @@ function handleMessage(sender_psid, received_message) {
                if(result.results[0].address_components[i].types[0]=="administrative_area_level_3")section=result.results[0].address_components[i].long_name;
                else if(result.results[0].address_components[i].types[0]=="administrative_area_level_1")city=result.results[0].address_components[i].long_name;
              }
-             console.log(section);
-             console.log(city);
+             response = {
+                 "text":"請選擇服務：",
+                 "quick_replies":[
+                   {
+                     "content_type":"text",
+                     "title":"利用分區搜尋("+section+")",
+                     "payload":"REG-"+section
+                   },{
+                     "content_type":"text",
+                     "title":"利用縣市搜尋("+city")",
+                     "payload":"CITY-"+city
+                   },
+                ]
+             }
+             callSendAPI(sender_psid, response);
          }
        });
   /*   response = { "text": "以下是我們替你找出位在台北市文山區的租屋!" }
@@ -1950,7 +1963,7 @@ function handleMessage(sender_psid, received_message) {
 
  // Sends the response message
 
- callSendAPI(sender_psid, response);
+ //callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
@@ -1973,6 +1986,9 @@ function handlePostback(sender_psid, received_postback) {
           }
        ]
     }
+  } else if(String(payload).split('-').length > 0){
+    console.log(String(payload).split('-')[0]);
+    console.log(String(payload).split('-')[1]);
   } else if (payload === 'CITY') {
     response = { "text": "CITY!" }
   } else if (payload === 'SCHOOL') {
