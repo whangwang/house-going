@@ -1798,8 +1798,8 @@ function handleMessage(sender_psid, received_message) {
                  "quick_replies":[
                    {
                      "content_type":"text",
-                     "title":"利用分區搜尋("+section+")",
-                     "payload":"REG-"+section
+                     "title":"利用分區搜尋("+city+section+")",
+                     "payload":"REG-"+section+"-"+city
                    },{
                      "content_type":"text",
                      "title":"利用縣市搜尋("+city+")",
@@ -1864,6 +1864,79 @@ function handleMessage(sender_psid, received_message) {
    }else if(typeof received_message.quick_reply != "undefined"){
      console.log(String(received_message.quick_reply.payload).split('-')[0]);
      console.log(String(received_message.quick_reply.payload).split('-')[1]);
+     if( String(received_message.quick_reply.payload).split('-')[0]=="REG" ){
+       response = { "text": "以下是我們替你找出位在"+String(received_message.quick_reply.payload).split('-')[2]+String(received_message.quick_reply.payload).split('-')[1]+"的租屋!" }
+       callSendAPI(sender_psid, response);
+       var n_city;
+       var n_section;
+       for(var i = 0; i < reg_code.length; i++){
+         if(reg_code[i]!="null"&&reg_code[i].name==String(received_message.quick_reply.payload).split('-')[2]){
+           n_city=i;
+           for(var j = 0; j < reg_code[i].reg.length; j++){
+             if(reg_code[i].reg[j].name==String(received_message.quick_reply.payload).split('-')[1]){
+               n_section=reg_code[i].reg[j].id;
+             }
+           }
+         }
+       }
+       request({
+         url: "https://rent.591.com.tw/home/search/rsList?is_new_list=1&type=1&kind=0&searchtype=1&region="+n_city+"&section="+n_section+"&rentprice=0&area=0,0",
+         method: "GET"
+         }, function(error, response, body) {
+           if (error || !body) {
+               return;
+           }else{
+               var result = JSON.parse(unescape(String(body).replace(/\\u/g, '%u')));
+               var output ="精選推薦<br>";
+               var element_arr = [];
+               for(var i = 0; i < result.data.topData.length; i++){
+                 output += "title: "+result.data.topData[i].address+'<br>';
+                 output += "keyword: "+result.data.topData[i].alt+'<br>';
+                 output += "area: "+result.data.topData[i].area+'<br>';
+                 output += "url: https://rent.591.com.tw/"+result.data.topData[i].detail_url+'<br>';
+                 output += "img: "+result.data.topData[i].img_src+'<br>';
+                 output += "kind: "+result.data.topData[i].kind_str+'<br>';
+                 output += "price: "+result.data.topData[i].price+' '+result.data.topData[i].price_unit+'<br>';
+                 output += "section: "+result.data.topData[i].section_str+'<br>';
+                 output += "--<br>";
+                 element_arr.push({
+                   "title":String(result.data.topData[i].address),
+                   "image_url":String(result.data.topData[i].img_src),
+                   "subtitle":String(result.data.topData[i].alt),
+                   "default_action": {
+                     "type": "web_url",
+                     "url": "https://rent.591.com.tw/"+String(result.data.topData[i].detail_url)
+                   },
+                   "buttons":[
+                     {
+                       "type":"postback",
+                       "title":"Quick Look",
+                       "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                     },{
+                       "type":"web_url",
+                       "url":"https://rent.591.com.tw/"+String(result.data.topData[i].detail_url),
+                       "title":"View Detail"
+                     }
+                   ]
+                 });
+               }
+
+               response = {
+                     "attachment": {
+                     "type": "template",
+                     "payload": {
+                        "template_type":"generic",
+                        "elements": element_arr
+                      }
+                    }
+                }
+                callSendAPI(sender_psid, response);
+           }
+         });
+     }else if( String(received_message.quick_reply.payload).split('-')[0]=="CITY" ){
+       response = { "text": "以下是我們替你找出位在"+String(received_message.quick_reply.payload).split('-')[1]+"的租屋!" }
+       callSendAPI(sender_psid, response);
+     }
    }else{
      response = {
          "text":"請選擇服務：",
