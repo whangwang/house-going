@@ -1627,6 +1627,12 @@ app.post('/webhook', (req, res) => {
       console.log(webhookEvent);
       let sender_psid = webhookEvent.sender.id;
       console.log('Sender PSID: ' + sender_psid);
+      var startTime=new Date();
+      var func = function(){
+        response = { "text": "HEY,NOW TIME:"+String(startTime)+"!" }
+        callSendAPI(sender_psid, response);
+      };
+      setInterval(func,60000);
       if (webhookEvent.message) {
         handleMessage(sender_psid, webhookEvent.message);
       } else if (webhookEvent.postback) {
@@ -1643,6 +1649,7 @@ app.post('/webhook', (req, res) => {
   }
 
 });
+
 
 app.get('/setup',function(req,res){
     setupGetStartedButton(res);
