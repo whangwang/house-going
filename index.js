@@ -1986,7 +1986,7 @@ function handlePostback(sender_psid, received_postback) {
           }
        ]
     }
-  } else if(String(payload).split('-').length > 0){
+  } else if(String(payload).split('-').length > 1){
     console.log(String(payload).split('-')[0]);
     console.log(String(payload).split('-')[1]);
   } else if (payload === 'CITY') {
