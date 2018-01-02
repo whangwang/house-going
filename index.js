@@ -1868,6 +1868,7 @@ function handleMessage(sender_psid, received_message) {
      if( String(received_message.quick_reply.payload).split('-')[0]=="REG" ){
        response = { "text": "以下是我們替你找出位在"+String(received_message.quick_reply.payload).split('-')[2]+String(received_message.quick_reply.payload).split('-')[1]+"的租屋!" }
        callSendAPI(sender_psid, response);
+       whileWait(sender_psid);
        var n_city ;
        var n_section ;
        for(var i = 1; i < reg_code.length; i++){
@@ -1927,7 +1928,6 @@ function handleMessage(sender_psid, received_message) {
                    ]
                  });
                }
-               console.log(element_arr);
                response = {
                      "attachment": {
                      "type": "template",
@@ -1937,13 +1937,77 @@ function handleMessage(sender_psid, received_message) {
                       }
                     }
                 }
-                console.log(response);
                 callSendAPI(sender_psid, response);
            }
          });
      }else if( String(received_message.quick_reply.payload).split('-')[0]=="CITY" ){
        response = { "text": "以下是我們替你找出位在"+String(received_message.quick_reply.payload).split('-')[1]+"的租屋!" }
        callSendAPI(sender_psid, response);
+       whileWait(sender_psid);
+       var n_city ;
+       for(var i = 1; i < reg_code.length; i++){
+         if(( reg_code[i] != null )){
+           console.log(i);
+           if(reg_code[i].name==String(received_message.quick_reply.payload).split('-')[1]){
+             n_city=i;
+           }
+         }
+       }
+       console.log(n_city);
+       request({
+         url: "https://rent.591.com.tw/home/search/rsList?is_new_list=1&type=1&kind=0&searchtype=1&region="+n_city+"&rentprice=0&area=0,0",
+         method: "GET"
+         }, function(error, response, body) {
+           if (error || !body) {
+               return;
+           }else{
+               console.log('精選推薦');
+               var result = JSON.parse(unescape(String(body).replace(/\\u/g, '%u')));
+               var output ="精選推薦<br>";
+               var element_arr = [];
+               for(var i = 0; i < Math.min(5,result.data.topData.length); i++){
+      /*           output += "title: "+result.data.topData[i].address+'<br>';
+                 output += "keyword: "+result.data.topData[i].alt+'<br>';
+                 output += "area: "+result.data.topData[i].area+'<br>';
+                 output += "url: https://rent.591.com.tw/"+result.data.topData[i].detail_url+'<br>';
+                 output += "img: "+result.data.topData[i].img_src+'<br>';
+                 output += "kind: "+result.data.topData[i].kind_str+'<br>';
+                 output += "price: "+result.data.topData[i].price+' '+result.data.topData[i].price_unit+'<br>';
+                 output += "section: "+result.data.topData[i].section_str+'<br>';
+                 output += "--<br>";  */
+                 element_arr.push({
+                   "title":String(result.data.topData[i].address),
+                   "image_url":String(result.data.topData[i].img_src),
+                   "subtitle":String(result.data.topData[i].alt),
+                   "default_action": {
+                     "type": "web_url",
+                     "url": "https://rent.591.com.tw/"+String(result.data.topData[i].detail_url)
+                   },
+                   "buttons":[
+                     {
+                       "type":"postback",
+                       "title":"Quick Look",
+                       "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                     },{
+                       "type":"web_url",
+                       "url":"https://rent.591.com.tw/"+String(result.data.topData[i].detail_url),
+                       "title":"View Detail"
+                     }
+                   ]
+                 });
+               }
+               response = {
+                     "attachment": {
+                     "type": "template",
+                     "payload": {
+                        "template_type":"generic",
+                        "elements": element_arr
+                      }
+                    }
+                }
+                callSendAPI(sender_psid, response);
+           }
+         });
      }
    }else{
      response = {
