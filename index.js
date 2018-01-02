@@ -1807,6 +1807,7 @@ function handleMessage(sender_psid, received_message) {
                    }
                 ]
              }
+             console.log('test123948102348910234');
              callSendAPI(sender_psid, response);
          }
        });
