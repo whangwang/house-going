@@ -1780,7 +1780,7 @@ function handleMessage(sender_psid, received_message) {
      var lat = received_message.attachments[0].payload.coordinates.lat;
      var long = received_message.attachments[0].payload.coordinates.long;
      request({
-       url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+long+"&key=AIzaSyBnkKED6f110BCYfHraX7-kPkPawFMR8es",
+       url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+long+"&language=zh-TW&key=AIzaSyBnkKED6f110BCYfHraX7-kPkPawFMR8es",
        method: "GET"
        }, function(error, response, body) {
          if (error || !body) {
