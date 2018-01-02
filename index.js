@@ -1959,7 +1959,9 @@ function handleMessage(sender_psid, received_message) {
            },
         ]
      }
-     console.log('???');
+     console.log(String(received_message.quick_reply.payload));
+     console.log(String(received_message.quick_reply.payload).split('-').length);
+
    }
 
 
