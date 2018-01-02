@@ -1862,7 +1862,7 @@ function handleMessage(sender_psid, received_message) {
             }
           }
       }*/
-   }else if(typeof received_message.quick_reply != "undefined"){
+   }else if(typeof received_message.quick_reply != "undefined" && String(received_message.quick_reply.payload).split('-')>1){
      console.log(String(received_message.quick_reply.payload).split('-')[0]);
      console.log(String(received_message.quick_reply.payload).split('-')[1]);
      if( String(received_message.quick_reply.payload).split('-')[0]=="REG" ){
@@ -2065,9 +2065,6 @@ function handlePostback(sender_psid, received_postback) {
           }
        ]
     }
-  } else if(String(payload).split('-').length > 1){
-    console.log(String(payload).split('-')[0]);
-    console.log(String(payload).split('-')[1]);
   } else if (payload === 'CITY') {
     response = { "text": "CITY!" }
   } else if (payload === 'SCHOOL') {
