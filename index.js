@@ -1959,6 +1959,7 @@ function handleMessage(sender_psid, received_message) {
            },
         ]
      }
+     console.log('???');
    }
 
 
