@@ -1892,11 +1892,12 @@ function handleMessage(sender_psid, received_message) {
            if (error || !body) {
                return;
            }else{
+               console.log('精選推薦');
                var result = JSON.parse(unescape(String(body).replace(/\\u/g, '%u')));
                var output ="精選推薦<br>";
                var element_arr = [];
                for(var i = 0; i < result.data.topData.length; i++){
-                 output += "title: "+result.data.topData[i].address+'<br>';
+      /*           output += "title: "+result.data.topData[i].address+'<br>';
                  output += "keyword: "+result.data.topData[i].alt+'<br>';
                  output += "area: "+result.data.topData[i].area+'<br>';
                  output += "url: https://rent.591.com.tw/"+result.data.topData[i].detail_url+'<br>';
@@ -1904,7 +1905,7 @@ function handleMessage(sender_psid, received_message) {
                  output += "kind: "+result.data.topData[i].kind_str+'<br>';
                  output += "price: "+result.data.topData[i].price+' '+result.data.topData[i].price_unit+'<br>';
                  output += "section: "+result.data.topData[i].section_str+'<br>';
-                 output += "--<br>";
+                 output += "--<br>";  */
                  element_arr.push({
                    "title":String(result.data.topData[i].address),
                    "image_url":String(result.data.topData[i].img_src),
