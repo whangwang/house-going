@@ -1879,6 +1879,8 @@ function handleMessage(sender_psid, received_message) {
            }
          }
        }
+       console.log(n_city);
+       console.log(n_section);
        request({
          url: "https://rent.591.com.tw/home/search/rsList?is_new_list=1&type=1&kind=0&searchtype=1&region="+n_city+"&section="+n_section+"&rentprice=0&area=0,0",
          method: "GET"
