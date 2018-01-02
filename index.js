@@ -1927,7 +1927,7 @@ function handleMessage(sender_psid, received_message) {
                    ]
                  });
                }
-
+               console.log(element_arr);
                response = {
                      "attachment": {
                      "type": "template",
