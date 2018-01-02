@@ -1868,18 +1868,20 @@ function handleMessage(sender_psid, received_message) {
      if( String(received_message.quick_reply.payload).split('-')[0]=="REG" ){
        response = { "text": "以下是我們替你找出位在"+String(received_message.quick_reply.payload).split('-')[2]+String(received_message.quick_reply.payload).split('-')[1]+"的租屋!" }
        callSendAPI(sender_psid, response);
-       var n_city;
-       var n_section;
+       var n_city = 1;
+       var n_section = 12;
        for(var i = 1; i < reg_code.length; i++){
          if((typeof reg_code[i] != "undefined")){
-           if(reg_code[i].name==String(received_message.quick_reply.payload).split('-')[2]){
+      /*     if(reg_code[i].name==String(received_message.quick_reply.payload).split('-')[2]){
              n_city=i;
              for(var j = 0; j < reg_code[i].reg.length; j++){
                if(reg_code[i].reg[j].name==String(received_message.quick_reply.payload).split('-')[1]){
                  n_section=reg_code[i].reg[j].id;
                }
              }
-           }
+           }*/
+           n_city = 1;
+           n_section = 12;
          }
        }
        console.log(n_city);
