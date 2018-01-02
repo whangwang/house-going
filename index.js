@@ -1787,7 +1787,14 @@ function handleMessage(sender_psid, received_message) {
              return;
          }else{
              var result = JSON.parse(unescape(String(body).replace(/\\u/g, '%u')));
-             console.log(result);
+             var section;
+             var city;
+             for(var i = 0; i < result.results[0].address_components.length; i++){
+               if(result.results[0].address_components[i].types[0]=="administrative_area_level_3")section=result.results[0].address_components[i].long_name;
+               else if(result.results[0].address_components[i].types[0]=="administrative_area_level_1")city=result.results[0].address_components[i].long_name;
+             }
+             console.log(section);
+             console.log(city);
          }
        });
   /*   response = { "text": "以下是我們替你找出位在台北市文山區的租屋!" }
