@@ -1862,7 +1862,7 @@ function handleMessage(sender_psid, received_message) {
             }
           }
       }*/
-   }else if(typeof received_message.quick_reply != "undefined" && String(received_message.quick_reply.payload).split('-')>1){
+   }else if((typeof received_message.quick_reply != "undefined") && String(received_message.quick_reply.payload).split('-').length>1){
      console.log(String(received_message.quick_reply.payload).split('-')[0]);
      console.log(String(received_message.quick_reply.payload).split('-')[1]);
      if( String(received_message.quick_reply.payload).split('-')[0]=="REG" ){
