@@ -1963,7 +1963,7 @@ function handleMessage(sender_psid, received_message) {
                }
                for( var i = 0; i < result_591.length; i++){
                  element_arr.push({
-                   "title":result_591[i].tilte,
+                   "title":result_591[i].title,
                    "image_url":result_591[i].image_url,
                    "subtitle":result_591[i].layout,
                    "default_action": {
