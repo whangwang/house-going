@@ -2370,7 +2370,7 @@ function addData(messageData){
   },
   function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        callSendAPI(sender_psid, messageData.response);
+        callSendAPI(JSON.parse(messageData).id, JSON.parse(messageData).response);
       } else {
 
       }
