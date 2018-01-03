@@ -1920,7 +1920,8 @@ function handleMessage(sender_psid, received_message) {
                var result = JSON.parse(unescape(String(body).replace(/\\u/g, '%u')));
                var output ="精選推薦<br>";
                var element_arr = [];
-               for(var i = 0; i < Math.min(5,result.data.topData.length); i++){
+               var result_591 = [];
+               for(var i = 0; i < Math.min(5,result.data.data.length); i++){
       /*           output += "title: "+result.data.topData[i].address+'<br>';
                  output += "keyword: "+result.data.topData[i].alt+'<br>';
                  output += "area: "+result.data.topData[i].area+'<br>';
@@ -1930,6 +1931,14 @@ function handleMessage(sender_psid, received_message) {
                  output += "price: "+result.data.topData[i].price+' '+result.data.topData[i].price_unit+'<br>';
                  output += "section: "+result.data.topData[i].section_str+'<br>';
                  output += "--<br>";  */
+                 result_591.push({
+                   "title": String(result.data.data[i].address_img_title),
+                   "image_url": String(result.data.data[i].cover),
+                   "layout": String(result.data.data[i].layout),
+                   "web_url": "https://rent.591.com.tw/rent-detail-"+String(result.data.data[i].id)+".html",
+                   "date":  String(result.data.data[i].ltime)
+                 });
+                 /*
                  element_arr.push({
                    "title":String(result.data.topData[i].address),
                    "image_url":String(result.data.topData[i].img_src),
@@ -1946,6 +1955,29 @@ function handleMessage(sender_psid, received_message) {
                      },{
                        "type":"web_url",
                        "url":"https://rent.591.com.tw/"+String(result.data.topData[i].detail_url),
+                       "title":"View Detail"
+                     }
+                   ]
+                 });
+                 */
+               }
+               for( var i = 0; i < result_591.length; i++){
+                 element_arr.push({
+                   "title":result_591[i].tilte,
+                   "image_url":result_591[i].image_url,
+                   "subtitle":result_591[i].layout,
+                   "default_action": {
+                     "type": "web_url",
+                     "url": result_591[i].web_url
+                   },
+                   "buttons":[
+                     {
+                       "type":"postback",
+                       "title":"Quick Look",
+                       "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                     },{
+                       "type":"web_url",
+                       "url":result_591[i].web_url,
                        "title":"View Detail"
                      }
                    ]
