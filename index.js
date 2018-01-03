@@ -1660,7 +1660,20 @@ app.get('/setup',function(req,res){
 });
 
 app.get('/look_data',function(req,res){
-    res.send(user_data);
+  request({
+      url: 'https://user-data-server.herokuapp.com/get_data/12341adsfqwe',
+      method: 'GET'
+  },
+  function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+          // Print out the response body
+          res.send(body);
+
+      } else {
+          // TODO: Handle errors
+          res.send(body);
+      }
+  });
 });
 
 app.get('/webhook', (req, res) => {
