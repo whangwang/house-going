@@ -2182,8 +2182,9 @@ function handleMessage(sender_psid, received_message) {
          */
          var messageData={
            "id": String(sender_psid),
-           "type": "city",
+           "type": "reg",
            "cid": String(n_city),
+           "sid": String(n_section),
            "response": { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[3]+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
          }
          addData(messageData);
@@ -2370,7 +2371,7 @@ function addData(messageData){
   },
   function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        callSendAPI(JSON.parse(messageData).id, JSON.parse(messageData).response);
+        callSendAPI(messageData.id, messageData.response);
       } else {
 
       }
