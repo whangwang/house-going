@@ -1676,6 +1676,30 @@ app.get('/look_data',function(req,res){
   });
 });
 
+app.get('/add_data',function(req,res){
+  var messageData={
+    id: "iasdf1234",
+    type: "city",
+    cid: "1"
+  }
+  request({
+      url: 'https://user-data-server.herokuapp.com/set_data',
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      form: messageData
+  },
+  function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+          // Print out the response body
+          res.send(body);
+
+      } else {
+          // TODO: Handle errors
+          res.send(body);
+      }
+  });
+});
+
 app.get('/webhook', (req, res) => {
 
   // Your verify token. Should be a random string.
@@ -2089,6 +2113,7 @@ function handleMessage(sender_psid, received_message) {
              }
            }
          }
+         /*
          var find = 0;
          for(var i = 0; i < user_data.length; i++){
            if(String(user_data[i].id)==String(sender_psid)){
@@ -2107,9 +2132,14 @@ function handleMessage(sender_psid, received_message) {
                cid: n_city
              }]
            });
+         }*/
+         var messageData={
+           id: String(sender_psid),
+           type: "city",
+           cid: String(n_city),
+           response: { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
          }
-         response = { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
-         callSendAPI(sender_psid, response);
+         addData(messageData);
        }else{
          whileWait(sender_psid);
          var n_city ;
@@ -2127,6 +2157,7 @@ function handleMessage(sender_psid, received_message) {
              }
            }
          }
+         /*
          var find = 0;
          for(var i = 0; i < user_data.length; i++){
            if(String(user_data[i].id)==String(sender_psid)){
@@ -2148,8 +2179,14 @@ function handleMessage(sender_psid, received_message) {
              }]
            });
          }
-         response = { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[3]+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
-         callSendAPI(sender_psid, response);
+         */
+         var messageData={
+           id: String(sender_psid),
+           type: "city",
+           cid: String(n_city),
+           response: { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[3]+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
+         }
+         addData(messageData);
        }
      }
    }else{
@@ -2321,6 +2358,22 @@ function whileWait(sender_psid){
     } else {
       console.error("Unable to send message:" + err);
     }
+  });
+}
+
+function addData(messageData){
+  request({
+      url: 'https://user-data-server.herokuapp.com/set_data',
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      form: messageData
+  },
+  function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        callSendAPI(sender_psid, messageData.response);
+      } else {
+
+      }
   });
 }
 
