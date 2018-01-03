@@ -2366,7 +2366,7 @@ function addData(messageData){
       url: 'https://user-data-server.herokuapp.com/set_data',
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      form: messageData
+      form: JSON.stringify(messageData)
   },
   function (error, response, body) {
       if (!error && response.statusCode == 200) {
