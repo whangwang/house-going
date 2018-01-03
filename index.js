@@ -1678,9 +1678,9 @@ app.get('/look_data',function(req,res){
 
 app.get('/add_data',function(req,res){
   var messageData={
-    id: "iasdf1234",
-    type: "city",
-    cid: "1"
+    "id": "iasdf1234",
+    "type": "city",
+    "cid": "1"
   }
   request({
       url: 'https://user-data-server.herokuapp.com/set_data',
@@ -2134,10 +2134,10 @@ function handleMessage(sender_psid, received_message) {
            });
          }*/
          var messageData={
-           id: String(sender_psid),
-           type: "city",
-           cid: String(n_city),
-           response: { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
+           "id": String(sender_psid),
+           "type": "city",
+           "cid": String(n_city),
+           "response": { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
          }
          addData(messageData);
        }else{
@@ -2181,10 +2181,10 @@ function handleMessage(sender_psid, received_message) {
          }
          */
          var messageData={
-           id: String(sender_psid),
-           type: "city",
-           cid: String(n_city),
-           response: { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[3]+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
+           "id": String(sender_psid),
+           "type": "city",
+           "cid": String(n_city),
+           "response": { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[3]+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
          }
          addData(messageData);
        }
