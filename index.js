@@ -6,6 +6,7 @@ const
   express = require('express'),
   bodyParser = require('body-parser'),
   request = require('request'),
+  cheerio = require('cheerio'),
   app = express().use(bodyParser.json()); // creates express http server
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
@@ -1611,6 +1612,87 @@ var reg_code = [
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 // Creates the endpoint for our webhook
+
+app.get('/test_fun', (req, res) => {
+  var opt = { method: 'POST',
+    url: 'http://rent.twhg.com.tw/searchList.php',
+    form: {'rCountyCity': '台北市', 'rArea': '文山區'} };
+
+  request(opt, function (er, resp, content) {
+    if (er) throw new Error(er);
+    //console.log(body);
+
+    var $ = cheerio.load(content);
+    var result = [];
+    var objName = $(".info .block h1");
+    var objSpace = $(".info .info-add")
+    var objPrice = $(".info .info-price");
+    var objImg = $(".pic a img");
+    var date = $(".info .block .info-time");
+    var datetime = Math.min(10,parseInt(String(date.html()).split('天')[0]));
+    var d = new Date();
+    d.setDate(d.getDate()-datetime);
+    var ltime = d.toISOString().slice(0,10).replace(/-/g,"-");
+    // .each(function(index,item){
+    //   var imgSrc = $(this).attr('src')
+    // })
+
+    for(var i=0;i<objName.length;i++) {
+      var houseSpace = $(objSpace[i]).text().split(' ',2);
+      var description = $(objSpace[i]).text().replace(/\ +/g,"").split('\n').splice(1,2);
+      var image = $(objImg[i]).attr('src');
+      var url = "http://rent.twhg.com.tw/" + String($(objName[i]).find('a').attr('href'));
+      var house = {
+        title: $(objName[i]).text(),
+        layout: description,
+        image_url: image,
+        web_url: url,
+        date: ltime
+      }
+      result.push(house);
+    }
+    res.send(result);
+  })
+
+});
+
+function housefun(city,section){
+  var options = { method: 'POST',
+    url: 'http://rent.twhg.com.tw/searchList.php',
+    form: {'rCountyCity': city, 'rArea': section} };
+
+  request(options, function (error, response, body) {
+    if (error) throw new Error(error);
+    //console.log(body);
+
+    var $ = cheerio.load(body);
+    var result = [];
+    var objName = $(".info .block h1");
+    var objSpace = $(".info .info-add")
+    var objPrice = $(".info .info-price");
+    var objImg = $(".pic a img")
+    // .each(function(index,item){
+    //   var imgSrc = $(this).attr('src')
+    // })
+
+    for(var i=0;i<objName.length;i++) {
+      var houseSpace = $(objSpace[i]).text().split(' ',2)
+      var description = $(objSpace[i]).text().replace(/\ +/g,"").split('\n').splice(1,2)
+      var image = $(objImg[i]).attr('src')
+      var house = {
+        title: $(objName[i]).text(),
+        space: houseSpace,
+        description: description,
+        price: $(objPrice[i]).text(),
+        img: image,
+        link: 'http://rent.twhg.com.tw/searchList.php'
+      }
+      result.push(house);
+    }
+    return result;
+  })
+}
+
 app.post('/webhook', (req, res) => {
 
   let body = req.body;
@@ -1959,15 +2041,6 @@ function handleMessage(sender_psid, received_message) {
                var element_arr = [];
                var result_591 = [];
                for(var i = 0; i < Math.min(5,result.data.data.length); i++){
-      /*           output += "title: "+result.data.topData[i].address+'<br>';
-                 output += "keyword: "+result.data.topData[i].alt+'<br>';
-                 output += "area: "+result.data.topData[i].area+'<br>';
-                 output += "url: https://rent.591.com.tw/"+result.data.topData[i].detail_url+'<br>';
-                 output += "img: "+result.data.topData[i].img_src+'<br>';
-                 output += "kind: "+result.data.topData[i].kind_str+'<br>';
-                 output += "price: "+result.data.topData[i].price+' '+result.data.topData[i].price_unit+'<br>';
-                 output += "section: "+result.data.topData[i].section_str+'<br>';
-                 output += "--<br>";  */
                  result_591.push({
                    "title": String(result.data.data[i].address_img_title),
                    "image_url": String(result.data.data[i].cover),
@@ -1975,62 +2048,87 @@ function handleMessage(sender_psid, received_message) {
                    "web_url": "https://rent.591.com.tw/rent-detail-"+String(result.data.data[i].id)+".html",
                    "date":  String(result.data.data[i].ltime)
                  });
-                 /*
-                 element_arr.push({
-                   "title":String(result.data.topData[i].address),
-                   "image_url":String(result.data.topData[i].img_src),
-                   "subtitle":String(result.data.topData[i].alt),
-                   "default_action": {
-                     "type": "web_url",
-                     "url": "https://rent.591.com.tw/"+String(result.data.topData[i].detail_url)
-                   },
-                   "buttons":[
-                     {
-                       "type":"postback",
-                       "title":"Quick Look",
-                       "payload":"DEVELOPER_DEFINED_PAYLOAD"
-                     },{
-                       "type":"web_url",
-                       "url":"https://rent.591.com.tw/"+String(result.data.topData[i].detail_url),
-                       "title":"View Detail"
-                     }
-                   ]
-                 });
-                 */
                }
-               for( var i = 0; i < result_591.length; i++){
-                 element_arr.push({
-                   "title":result_591[i].title,
-                   "image_url":result_591[i].image_url,
-                   "subtitle":result_591[i].layout,
-                   "default_action": {
-                     "type": "web_url",
-                     "url": result_591[i].web_url
-                   },
-                   "buttons":[
-                     {
-                       "type":"postback",
-                       "title":"Quick Look",
-                       "payload":"DEVELOPER_DEFINED_PAYLOAD"
-                     },{
-                       "type":"web_url",
-                       "url":result_591[i].web_url,
-                       "title":"View Detail"
-                     }
-                   ]
+               /* fix-start */
+               var opt = { method: 'POST',
+                 url: 'http://rent.twhg.com.tw/searchList.php',
+                 form: {'rCountyCity': '台北市', 'rArea': '文山區'} };
+
+               request(opt, function (er, resp, content) {
+                 if (er) throw new Error(er);
+                 //console.log(body);
+
+                 var $ = cheerio.load(content);
+                 var result = [];
+                 var objName = $(".info .block h1");
+                 var objSpace = $(".info .info-add")
+                 var objPrice = $(".info .info-price");
+                 var objImg = $(".pic a img");
+                 var date = $(".info .block .info-time");
+                 var datetime = Math.min(10,parseInt(String(date.html()).split('天')[0]));
+                 var d = new Date();
+                 d.setDate(d.getDate()-datetime);
+                 var ltime = d.toISOString().slice(0,10).replace(/-/g,"-");
+                 // .each(function(index,item){
+                 //   var imgSrc = $(this).attr('src')
+                 // })
+
+                 for(var i=0;i<objName.length;i++) {
+                   var houseSpace = $(objSpace[i]).text().split(' ',2);
+                   var description = $(objSpace[i]).text().replace(/\ +/g,"").split('\n').splice(1,2);
+                   var image = $(objImg[i]).attr('src');
+                   var url = "http://rent.twhg.com.tw/" + String($(objName[i]).find('a').attr('href'));
+                   var house = {
+                     title: $(objName[i]).text(),
+                     layout: description,
+                     image_url: image,
+                     web_url: url,
+                     date: ltime
+                   }
+                   result_591.push(house);
+                 }
+
+                 result_591.sort(function(a, b) {
+                   return ((String(a.date) === String(b.date)) ? 0 : (String(a.date) > String(b.date)) ? 1 : -1));
                  });
-               }
-               console.log(element_arr);
-               response = {
-                     "attachment": {
-                     "type": "template",
-                     "payload": {
-                        "template_type":"generic",
-                        "elements": element_arr
+                 console.log(result_591);
+                 for( var i = 0; i < Math.min(5,result_591.length); i++){
+                   element_arr.push({
+                     "title":result_591[i].title,
+                     "image_url":result_591[i].image_url,
+                     "subtitle":result_591[i].layout,
+                     "default_action": {
+                       "type": "web_url",
+                       "url": result_591[i].web_url
+                     },
+                     "buttons":[
+                       {
+                         "type":"postback",
+                         "title":"Quick Look",
+                         "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                       },{
+                         "type":"web_url",
+                         "url":result_591[i].web_url,
+                         "title":"View Detail"
+                       }
+                     ]
+                   });
+                 }
+                 console.log(element_arr);
+                 response = {
+                       "attachment": {
+                       "type": "template",
+                       "payload": {
+                          "template_type":"generic",
+                          "elements": element_arr
+                        }
                       }
-                    }
-                }
-                callSendAPI(sender_psid, response);
+                  }
+                  callSendAPI(sender_psid, response);
+
+               })
+               /* fix-end */
+
            }
          });
      }else if( String(received_message.quick_reply.payload).split('-')[0]=="CITY" ){
