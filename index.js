@@ -2089,7 +2089,7 @@ function handleMessage(sender_psid, received_message) {
                  }
 
                  result_591.sort(function(a, b) {
-                   return ((String(a.date) === String(b.date)) ? 0 : (String(a.date) > String(b.date)) ? 1 : -1));
+                   return ((String(a.date) === String(b.date)) ? 0 : ((String(a.date) > String(b.date)) ? 1 : -1));
                  });
                  console.log(result_591);
                  for( var i = 0; i < Math.min(5,result_591.length); i++){
