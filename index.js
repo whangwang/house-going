@@ -2040,7 +2040,7 @@ function handleMessage(sender_psid, received_message) {
                var output ="精選推薦<br>";
                var element_arr = [];
                var result_591 = [];
-               for(var i = 0; i < Math.min(5,result.data.data.length); i++){
+               for(var i = 0; i < Math.min(9,result.data.data.length); i++){
                  result_591.push({
                    "title": String(result.data.data[i].address_img_title),
                    "image_url": String(result.data.data[i].cover),
