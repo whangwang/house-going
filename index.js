@@ -2080,7 +2080,7 @@ function handleMessage(sender_psid, received_message) {
                    var url = "http://rent.twhg.com.tw/" + String($(objName[i]).find('a').attr('href'));
                    var house = {
                      title: $(objName[i]).text(),
-                     layout: description,
+                     layout: description[0],
                      image_url: image,
                      web_url: url,
                      date: ltime
@@ -2088,7 +2088,7 @@ function handleMessage(sender_psid, received_message) {
                    result_591.push(house);
                  }
 
-                 result_591.sort(function(a, b) {
+                 result_591.sort(function(b, a) {
                    return ((String(a.date) === String(b.date)) ? 0 : ((String(a.date) > String(b.date)) ? 1 : -1));
                  });
                  console.log(result_591);
