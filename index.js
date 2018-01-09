@@ -2408,7 +2408,7 @@ function handleMessage(sender_psid, received_message) {
            "type": "city",
            "cid": String(n_city),
            "response": { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[2]+"成功!" },
-           "string": String(received_message.quick_reply.payload).split('-')[1]
+           "string": String(received_message.quick_reply.payload).split('-')[2]
          }
          addData(messageData);
        }else{
@@ -2457,7 +2457,7 @@ function handleMessage(sender_psid, received_message) {
            "cid": String(n_city),
            "sid": String(n_section),
            "response": { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[3]+String(received_message.quick_reply.payload).split('-')[2]+"成功!" },
-           "string": String(received_message.quick_reply.payload).split('-')[2]+String(received_message.quick_reply.payload).split('-')[1]
+           "string": String(received_message.quick_reply.payload).split('-')[3]+String(received_message.quick_reply.payload).split('-')[2]
          }
          addData(messageData);
        }
@@ -2614,9 +2614,10 @@ function handlePostback(sender_psid, received_postback) {
         if (!error && response.statusCode == 200) {
           var ob = JSON.parse(body);
           var str;
+          str = "[訂閱列表]"+"\u000A";
           for( var i = 0; i < ob.rtn.data[0].notify.length; i++){
             console.log(String(ob.rtn.data[0].notify[i].string));
-            str += String(ob.rtn.data[0].notify[i].string)+"\u000A";
+            str += "\u000A"+"--"+"\u000A"+String(ob.rtn.data[0].notify[i].string);
           }
           response = { "text": str }
           callSendAPI(sender_psid, response);
