@@ -2046,7 +2046,7 @@ function handleMessage(sender_psid, received_message) {
                    "image_url": String(result.data.data[i].cover),
                    "layout": String(result.data.data[i].layout),
                    "web_url": "https://rent.591.com.tw/rent-detail-"+String(result.data.data[i].id)+".html",
-                   "date":  String(result.data.data[i].ltime)+String(parseInt(Math.random()*10))
+                   "date":  String(result.data.data[i].ltime).replace(' ')[0]+String(parseInt(Math.random()*10))
                  });
                }
                /* fix-start */
