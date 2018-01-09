@@ -2046,7 +2046,7 @@ function handleMessage(sender_psid, received_message) {
                    "image_url": String(result.data.data[i].cover),
                    "layout": String(result.data.data[i].layout),
                    "web_url": "https://rent.591.com.tw/rent-detail-"+String(result.data.data[i].id)+".html",
-                   "date":  String(result.data.data[i].ltime)
+                   "date":  String(result.data.data[i].ltime)+String(parseInt(Math.random()*10))
                  });
                }
                /* fix-start */
@@ -2083,7 +2083,7 @@ function handleMessage(sender_psid, received_message) {
                      layout: description[0],
                      image_url: image,
                      web_url: url,
-                     date: ltime
+                     date: String(ltime)++String(parseInt(Math.random()*10))
                    }
                    result_591.push(house);
                  }
@@ -2103,13 +2103,37 @@ function handleMessage(sender_psid, received_message) {
                      },
                      "buttons":[
                        {
-                         "type":"postback",
-                         "title":"Quick Look",
-                         "payload":"DEVELOPER_DEFINED_PAYLOAD"
-                       },{
                          "type":"web_url",
                          "url":result_591[i].web_url,
                          "title":"View Detail"
+                       },
+                       {
+                         "type": "element_share",
+                         "share_contents": {
+                          "attachment": {
+                            "type": "template",
+                            "payload": {
+                               "template_type":"generic",
+                               "elements": [
+                                 {
+                                   "title":result_591[i].title,
+                                   "image_url":result_591[i].image_url,
+                                   "subtitle":result_591[i].layout,
+                                   "default_action": {
+                                     "type": "web_url",
+                                     "url": result_591[i].web_url
+                                   },"buttons":[
+                                    {
+                                     "type":"web_url",
+                                     "url":result_591[i].web_url,
+                                     "title":"View Detail"
+                                    }
+                                   ]
+                                 }
+                               ]
+                             }
+                           }
+                          }
                        }
                      ]
                    });
