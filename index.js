@@ -1758,6 +1758,73 @@ app.get('/look_data',function(req,res){
   });
 });
 
+app.get('/demo_data',function(req,res){
+  var result_591 = [{
+      "title": "全新裝潢頂加住家",
+      "image_url": "https://hp1.591.com.tw/house/active/2016/11/01/147800112645349902_210x158.crop.jpg",
+      "layout": "2房1廳2衛1陽台",
+      "web_url": "https://rent.591.com.tw/rent-detail-5945091.html",
+      "date":  "2018-01-105"
+    }]
+    for( var i = 0; i < 1; i++){
+      element_arr.push({
+        "title":result_591[i].title,
+        "image_url":result_591[i].image_url,
+        "subtitle":result_591[i].layout,
+        "default_action": {
+          "type": "web_url",
+          "url": result_591[i].web_url
+        },
+        "buttons":[
+          {
+            "type":"web_url",
+            "url":result_591[i].web_url,
+            "title":"開啟"
+          },
+          {
+            "type": "element_share",
+            "share_contents": {
+             "attachment": {
+               "type": "template",
+               "payload": {
+                  "template_type":"generic",
+                  "elements": [
+                    {
+                      "title":result_591[i].title,
+                      "image_url":result_591[i].image_url,
+                      "subtitle":result_591[i].layout,
+                      "default_action": {
+                        "type": "web_url",
+                        "url": result_591[i].web_url
+                      },"buttons":[
+                       {
+                        "type":"web_url",
+                        "url":result_591[i].web_url,
+                        "title":"View Detail"
+                       }
+                      ]
+                    }
+                  ]
+                }
+              }
+             }
+          }
+        ]
+      });
+    }
+    console.log(element_arr);
+    response = {
+          "attachment": {
+          "type": "template",
+          "payload": {
+             "template_type":"generic",
+             "elements": element_arr
+           }
+         }
+     }
+     res.json(response);
+});
+
 app.get('/add_data',function(req,res){
   var messageData={
     "id": "iasdf1234",
@@ -1817,16 +1884,16 @@ function setupGetStartedButton(res){
                 },
                 "greeting":[{
                     "locale":"default",
-                    "text":"哈囉 {{user_full_name}}!"
+                    "text":"哈囉, {{user_full_name}}!\u000A讓我們幫助您找到理想中的租屋處!"
                   }, {
                     "locale":"en_US",
-                    "text":"Timeless apparel for the masses."
+                    "text":"Hey, {{user_full_name}}!\u000A"
                   }
                 ],
                 "persistent_menu":[
                   {
                     "locale":"default",
-                    "composer_input_disabled": false,
+                    "composer_input_disabled": true,
                     "call_to_actions":[
                       /*{
                         "title":"租屋查詢",
@@ -1856,8 +1923,8 @@ function setupGetStartedButton(res){
                       },
                       {
                         "type":"web_url",
-                        "title":"關於",
-                        "url":"http://petershats.parseapp.com/hat-news",
+                        "title":"介紹",
+                        "url":"https://house-going-demo.herokuapp.com",
                         "webview_height_ratio":"full"
                       }
                     ]
@@ -2105,7 +2172,7 @@ function handleMessage(sender_psid, received_message) {
                        {
                          "type":"web_url",
                          "url":result_591[i].web_url,
-                         "title":"View Detail"
+                         "title":"開啟"
                        },
                        {
                          "type": "element_share",
