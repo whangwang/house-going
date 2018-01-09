@@ -1612,6 +1612,7 @@ var reg_code = [
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 // Creates the endpoint for our webhook
+var check = 0;
 
 app.get('/test_fun', (req, res) => {
   var opt = { method: 'POST',
@@ -1709,16 +1710,81 @@ app.post('/webhook', (req, res) => {
       console.log(webhookEvent);
       let sender_psid = webhookEvent.sender.id;
       console.log('Sender PSID: ' + sender_psid);
-      /*
-      var startTime=new Date();
-      var response = { "text": "HEY,NOW TIME:"+String(startTime)+"!" }
-      callSendAPI(sender_psid, response);
+
       var func = function(){
-        var response = { "text": "HEY,NOW TIME:"+String(startTime)+"!" }
-        callSendAPI(sender_psid, response);
+        if(check == 1){
+          var response = { "text": "[新資訊!]您對 台北市文山區 的房屋追蹤發現了一筆新的租屋資訊！" }
+          callSendAPI(sender_psid, response);
+          var element_arr = [];
+          var result_591 = [{
+              "title": "全新裝潢頂加住家",
+              "image_url": "https://hp1.591.com.tw/house/active/2016/11/01/147800112645349902_210x158.crop.jpg",
+              "layout": "2房1廳2衛1陽台",
+              "web_url": "https://rent.591.com.tw/rent-detail-5945091.html",
+              "date":  "2018-01-105"
+            }]
+            for( var i = 0; i < 1; i++){
+              element_arr.push({
+                "title":result_591[i].title,
+                "image_url":result_591[i].image_url,
+                "subtitle":result_591[i].layout,
+                "default_action": {
+                  "type": "web_url",
+                  "url": result_591[i].web_url
+                },
+                "buttons":[
+                  {
+                    "type":"web_url",
+                    "url":result_591[i].web_url,
+                    "title":"開啟"
+                  },
+                  {
+                    "type": "element_share",
+                    "share_contents": {
+                     "attachment": {
+                       "type": "template",
+                       "payload": {
+                          "template_type":"generic",
+                          "elements": [
+                            {
+                              "title":result_591[i].title,
+                              "image_url":result_591[i].image_url,
+                              "subtitle":result_591[i].layout,
+                              "default_action": {
+                                "type": "web_url",
+                                "url": result_591[i].web_url
+                              },"buttons":[
+                               {
+                                "type":"web_url",
+                                "url":result_591[i].web_url,
+                                "title":"View Detail"
+                               }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                     }
+                  }
+                ]
+              });
+            }
+            console.log(element_arr);
+            var response = {
+                  "attachment": {
+                  "type": "template",
+                  "payload": {
+                     "template_type":"generic",
+                     "elements": element_arr
+                   }
+                 }
+             }
+          callSendAPI(sender_psid, response);
+          check = 0;
+        }
       };
-      setInterval(func,60000);
-      */
+      setInterval(func,2000);
+
       if (webhookEvent.message) {
         handleMessage(sender_psid, webhookEvent.message);
       } else if (webhookEvent.postback) {
@@ -1756,6 +1822,15 @@ app.get('/look_data',function(req,res){
           res.send(body);
       }
   });
+});
+
+
+app.get('/start_demo',function(req,res){
+    check = 1;
+    var rtn = {
+      msg: "success"
+    }
+    res.json(rtn);
 });
 
 app.get('/demo_data',function(req,res){
