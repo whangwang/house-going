@@ -2040,7 +2040,7 @@ function handleMessage(sender_psid, received_message) {
                var output ="精選推薦<br>";
                var element_arr = [];
                var result_591 = [];
-               for(var i = 0; i < Math.min(9,result.data.data.length); i++){
+               for(var i = 0; i < Math.min(4,result.data.data.length); i++){
                  result_591.push({
                    "title": String(result.data.data[i].address_img_title),
                    "image_url": String(result.data.data[i].cover),
@@ -2092,7 +2092,7 @@ function handleMessage(sender_psid, received_message) {
                    return ((String(a.date) === String(b.date)) ? 0 : ((String(a.date) > String(b.date)) ? 1 : -1));
                  });
                  console.log(result_591);
-                 for( var i = 0; i < Math.min(5,result_591.length); i++){
+                 for( var i = 0; i < Math.min(9,result_591.length); i++){
                    element_arr.push({
                      "title":result_591[i].title,
                      "image_url":result_591[i].image_url,
