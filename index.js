@@ -1759,6 +1759,7 @@ app.get('/look_data',function(req,res){
 });
 
 app.get('/demo_data',function(req,res){
+  var element_arr = [];
   var result_591 = [{
       "title": "全新裝潢頂加住家",
       "image_url": "https://hp1.591.com.tw/house/active/2016/11/01/147800112645349902_210x158.crop.jpg",
