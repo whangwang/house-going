@@ -1960,7 +1960,7 @@ function setupGetStartedButton(res){
                 },
                 "greeting":[{
                     "locale":"default",
-                    "text":"哈囉, {{user_full_name}}!\r\n讓我們幫助您找到理想中的租屋處!"
+                    "text":"哈囉, {{user_full_name}}!\r\n讓我們幫助您找到理想中的租屋處!!"
                   }, {
                     "locale":"en_US",
                     "text":"Hey, {{user_full_name}}!\r\n"
