@@ -1814,7 +1814,7 @@ app.get('/demo_data',function(req,res){
       });
     }
     console.log(element_arr);
-    response = {
+    var response = {
           "attachment": {
           "type": "template",
           "payload": {
