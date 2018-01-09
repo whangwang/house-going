@@ -2618,7 +2618,7 @@ function handlePostback(sender_psid, received_postback) {
             console.log(String(ob.rtn.data[0].notify[i].string));
             str += String(ob.rtn.data[0].notify[i].string)+"\u000A";
           }
-          "response": { "text": str }
+          response = { "text": str }
           callSendAPI(sender_psid, response);
         } else {
 
