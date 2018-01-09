@@ -2083,7 +2083,7 @@ function handleMessage(sender_psid, received_message) {
                      layout: description[0],
                      image_url: image,
                      web_url: url,
-                     date: String(ltime)++String(parseInt(Math.random()*10))
+                     date: String(ltime)+String(parseInt(Math.random()*10))
                    }
                    result_591.push(house);
                  }
