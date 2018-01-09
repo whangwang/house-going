@@ -1960,10 +1960,10 @@ function setupGetStartedButton(res){
                 },
                 "greeting":[{
                     "locale":"default",
-                    "text":"哈囉, {{user_full_name}}!\u000A讓我們幫助您找到理想中的租屋處!"
+                    "text":"哈囉, {{user_full_name}}!\r\n讓我們幫助您找到理想中的租屋處!"
                   }, {
                     "locale":"en_US",
-                    "text":"Hey, {{user_full_name}}!\u000A"
+                    "text":"Hey, {{user_full_name}}!\r\n"
                   }
                 ],
                 "persistent_menu":[
@@ -1996,6 +1996,11 @@ function setupGetStartedButton(res){
                         "type":"postback",
                         "title":"查詢or訂閱",
                         "payload":"SEARCH_PAYLOAD"
+                      },
+                      {
+                        "type":"postback",
+                        "title":"訂閱列表",
+                        "payload":"SUB_PAYLOAD"
                       },
                       {
                         "type":"web_url",
@@ -2402,7 +2407,8 @@ function handleMessage(sender_psid, received_message) {
            "id": String(sender_psid),
            "type": "city",
            "cid": String(n_city),
-           "response": { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
+           "response": { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[2]+"成功!" },
+           "string": String(received_message.quick_reply.payload).split('-')[1];
          }
          addData(messageData);
        }else{
@@ -2450,7 +2456,8 @@ function handleMessage(sender_psid, received_message) {
            "type": "reg",
            "cid": String(n_city),
            "sid": String(n_section),
-           "response": { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[3]+String(received_message.quick_reply.payload).split('-')[2]+"成功!" }
+           "response": { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[3]+String(received_message.quick_reply.payload).split('-')[2]+"成功!" },
+           "string": String(received_message.quick_reply.payload).split('-')[2]+String(received_message.quick_reply.payload).split('-')[1]
          }
          addData(messageData);
        }
@@ -2598,6 +2605,25 @@ function handlePostback(sender_psid, received_postback) {
           }
        ]
     }
+  } else if (payload === 'SUB_PAYLOAD') {
+    request({
+        url: 'https://user-data-server.herokuapp.com/get_data/'+sender_psid,
+        method: 'GET'
+    },
+    function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var ob = JSON.parse(body);
+          var str;
+          for( var i = 0; i < ob.rtn.data[0].notify.length; i++){
+            console.log(String(ob.rtn.data[0].notify[i].string));
+            str += String(ob.rtn.data[0].notify[i].string)+"\u000A";
+          }
+          "response": { "text": str }
+          callSendAPI(sender_psid, response);
+        } else {
+
+        }
+    });
   }
 
   console.log(payload);
