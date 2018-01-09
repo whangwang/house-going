@@ -2408,7 +2408,7 @@ function handleMessage(sender_psid, received_message) {
            "type": "city",
            "cid": String(n_city),
            "response": { "text": "訂閱"+String(received_message.quick_reply.payload).split('-')[2]+"成功!" },
-           "string": String(received_message.quick_reply.payload).split('-')[1];
+           "string": String(received_message.quick_reply.payload).split('-')[1]
          }
          addData(messageData);
        }else{
